@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 3rem;
+            text-align: center;
+        }
+        .error-message {
+            color: #ef4444;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="dark-mode" data-color="brown">
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="/">Portfolio Admin</a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link">Back to Site</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="login-section">
+        <div class="card login-card">
+            <h2 style="margin-bottom: 2rem; font-family: var(--font-primary);">Admin Login</h2>
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+            <% } %>
+            <form action="/login" method="POST">
+                <div class="form-group" style="text-align: left;">
+                    <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Username</label>
+                    <input type="text" name="username" class="form-control" required autofocus>
+                </div>
+                <div class="form-group" style="text-align: left; margin-top: 1rem;">
+                    <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Login</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

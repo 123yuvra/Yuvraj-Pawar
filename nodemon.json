@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "ignore": ["node_modules", "assets", "views", "scratch"],
+  "delay": 1000,
+  "ext": "js,json,env",
+  "legacyWatch": true
+}

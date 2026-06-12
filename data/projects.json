@@ -1,0 +1,18 @@
+[
+    {
+        "id": "1",
+        "title": "Vehicle Rental System (Rental Bikes)",
+        "description": "A robust platform for renting vehicles, architected and delivered within a strict one-week timeframe.",
+        "image": "images/rental bike.png",
+        "github": "https://github.com/123yuvra/Rent-vehicle.git",
+        "live": "https://rent-vehicle-production-198b.up.railway.app/"
+    },
+    {
+        "id": "2",
+        "title": "Personal Web Portfolio",
+        "description": "A fully responsive, modern web portfolio featuring smooth scroll animations, dark mode toggle, and a Node.js backend.",
+        "image": "images/portfolio image .png",
+        "github": "https://github.com/123yuvra/Rent-vehicle.git",
+        "live": "https://rent-vehicle-production-198b.up.railway.app/"
+    }
+]

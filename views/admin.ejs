@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-section {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .admin-card {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            text-align: left;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .admin-table th, .admin-table td {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: top;
+        }
+        .admin-table th {
+            background-color: var(--bg-alt);
+            color: var(--text-primary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        .project-img {
+            max-width: 120px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+        }
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .edit-form {
+            display: none;
+            background-color: var(--bg-alt);
+        }
+        .edit-form td {
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body class="dark-mode" data-color="brown">
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="/">Admin Dashboard</a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-links" style="display: flex; gap: 1.5rem; align-items: center; list-style: none;">
+                    <li><a href="/" class="nav-link">Back to Portfolio</a></li>
+                    <li><a href="/logout" class="nav-link" style="color: #ef4444;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="admin-section">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom: 4rem;">Dashboard Controls</h2>
+            
+            <!-- Upload Resume Card -->
+            <div class="card admin-card">
+                <h3 style="margin-bottom: 1.5rem; font-family: var(--font-primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-file-pdf" style="color: var(--accent-primary);"></i> Update Resume
+                </h3>
+                <form action="/api/resume/upload" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="resume" style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Select Resume (PDF, DOCX, etc.):</label>
+                        <input type="file" name="resume" id="resume" class="form-control" style="background: transparent; border: 1px dashed var(--border-color);" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload Resume</button>
+                </form>
+            </div>
+
+            <!-- Add New Project Card -->
+            <div class="card admin-card">
+                <h3 style="margin-bottom: 1.5rem; font-family: var(--font-primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-plus-circle" style="color: var(--accent-primary);"></i> Add New Project
+                </h3>
+                <form action="/api/projects/add" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Title:</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Description:</label>
+                        <textarea name="description" rows="3" class="form-control" required></textarea>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">GitHub Link:</label>
+                            <input type="text" name="github" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Live Link:</label>
+                            <input type="text" name="live" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Project Image:</label>
+                        <input type="file" name="image" class="form-control" style="background: transparent; border: 1px dashed var(--border-color);" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Project</button>
+                </form>
+            </div>
+
+            <!-- Manage Projects Card -->
+            <div class="card admin-card">
+                <h3 style="margin-bottom: 1.5rem; font-family: var(--font-primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-tasks" style="color: var(--accent-primary);"></i> Manage Existing Projects
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Details</th>
+                                <th>Links</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% projects.forEach(project => { %>
+                                <tr>
+                                    <td data-label="Image"><img src="/<%= project.image %>" class="project-img" alt="<%= project.title %>"></td>
+                                    <td data-label="Details">
+                                        <strong style="font-size: 1.1rem;"><%= project.title %></strong><br>
+                                        <p style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;"><%= project.description %></p>
+                                    </td>
+                                    <td data-label="Links">
+                                        <% if (project.github && project.github !== '#') { %>
+                                            <a href="<%= project.github %>" target="_blank" style="color: var(--accent-primary); display: inline-block; margin-bottom: 0.5rem;"><i class="fab fa-github"></i> GitHub</a><br>
+                                        <% } %>
+                                        <% if (project.live && project.live !== '#') { %>
+                                            <a href="<%= project.live %>" target="_blank" style="color: var(--accent-primary);"><i class="fas fa-external-link-alt"></i> Live View</a>
+                                        <% } %>
+                                    </td>
+                                    <td data-label="Actions">
+                                        <div class="action-buttons">
+                                            <button onclick="document.getElementById('edit-<%= project.id %>').style.display='table-row'" class="btn btn-outline btn-sm">Edit</button>
+                                            <form action="/api/projects/delete/<%= project.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this project?');">
+                                                <button type="submit" class="btn btn-outline btn-sm" style="border-color: #ef4444; color: #ef4444;">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr id="edit-<%= project.id %>" class="edit-form">
+                                    <td colspan="4">
+                                        <form action="/api/projects/edit/<%= project.id %>" method="POST" enctype="multipart/form-data">
+                                            <h4 style="margin-bottom: 1.5rem; font-family: var(--font-primary);">Edit Project: <%= project.title %></h4>
+                                            <div class="form-group">
+                                                <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Title:</label>
+                                                <input type="text" name="title" value="<%= project.title %>" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Description:</label>
+                                                <textarea name="description" rows="3" class="form-control" required><%= project.description %></textarea>
+                                            </div>
+                                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                                <div class="form-group">
+                                                    <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">GitHub Link:</label>
+                                                    <input type="text" name="github" value="<%= project.github %>" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">Live Link:</label>
+                                                    <input type="text" name="live" value="<%= project.live %>" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary);">New Image (optional):</label>
+                                                <input type="file" name="image" class="form-control" style="background: transparent; border: 1px dashed var(--border-color);">
+                                            </div>
+                                            <div class="action-buttons" style="margin-top: 1.5rem;">
+                                                <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+                                                <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('edit-<%= project.id %>').style.display='none'">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
